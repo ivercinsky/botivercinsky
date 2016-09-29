@@ -8,7 +8,7 @@ var port = process.env.PORT || 8000; // first change
 var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
-var path = require('path');
+//var path = require('path');
 
 var app = express();
 
@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 
 
 // change four
-
+app.get('/', function(req, res) {
+    res.send('hello world');
+});
 
 server.listen(port, function () { // fifth and final change
 });
