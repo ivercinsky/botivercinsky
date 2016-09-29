@@ -1,0 +1,36 @@
+{
+  "name": "botivercinsky",
+  "description": "",
+  "version": "0.1.0",
+  "author": "Ivan Vercinsky <ivercinsky@dc.uba.ar>",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ivercinsky/botivercinsky.git"
+  },
+  "bugs": "https://github.com/ivercinsky/botivercinsky/issues",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": "~0.10.22"
+  },
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "^4.0.0",
+    "jsonpath": "^0.2.0"
+  },
+  "devDependencies": {
+    "tape": "^3.0.0",
+    "jshint": "^2.4.1",
+    "istanbul": "~0.2.3",
+    "enjoi": "~0.1.16",
+    "supertest": "~0.13.0"
+  },
+  "scripts": {
+    "test": "tape test/*.js",
+    "cover": "istanbul cover tape -- test/*.js",
+    "lint": "jshint -c .jshintrc lib/**/*.js"
+  },
+  "main": "./server"
+}
