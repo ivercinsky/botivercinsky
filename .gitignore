@@ -36,4 +36,7 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-/config/default.json
+config/default.json
+.idea/botivercinsky2.iml
+.idea/modules.xml
+.idea/workspace.xml
