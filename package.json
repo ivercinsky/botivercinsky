@@ -16,11 +16,13 @@
     "node": "~0.10.22"
   },
   "dependencies": {
-    "body-parser": "^1.9.0",
-    "express": "^4.0.0",
-    "hjs": "0.0.6",
+    "body-parser": "^1.15.0",
+    "config": "^1.21.0",
+    "ejs": "^2.5.2",
+    "express": "^4.13.4",
     "hogan-express": "^0.5.2",
-    "jsonpath": "^0.2.0"
+    "jsonpath": "^0.2.0",
+    "request": "^2.75.0"
   },
   "devDependencies": {
     "tape": "^3.0.0",
