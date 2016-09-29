@@ -12,17 +12,28 @@ router.use(function timeLog(req, res, next) {
 // define the home page route
 router.get('/', function(req, res) {
     res.locals = {
-        title: 'Boooots!!!',
+        title: 'Boooots!!!'
     };
     return res.render(
         'index',
         {
             partials:
             {
-                part: 'part',
+                part: 'part'
             }
         }
     );
+});
+
+routes.get('/messenger/webhook', function (req,res) {
+    if (req.query['hub.mode'] === 'subscribe' &&
+        req.query['hub.verify_token'] === "my_bot_rules") {
+        console.log("Validating webhook");
+        res.status(200).send(req.query['hub.challenge']);
+    } else {
+        console.error("Failed validation. Make sure the validation tokens match.");
+        res.sendStatus(403);
+    }
 });
 
 
