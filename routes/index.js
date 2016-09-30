@@ -150,8 +150,8 @@ function sendGenericCreditoMessage(recipientId) {
                     elements:[{
                         title:"Nuevo Crédito",
                         subtitle:"0% de Interes",
-                        item_url:"",
-                        image_url:"",
+                        item_url: "https://www.oculus.com/en-us/rift/",
+                        image_url: "http://messengerdemo.parseapp.com/img/rift.png",
                         buttons:[{
                             type:"postback",
                             title:"SI!",
@@ -162,6 +162,7 @@ function sendGenericCreditoMessage(recipientId) {
             }
         }
     }
+    callSendAPI(messageData);
 }
 function sendGenericMessage(recipientId) {
     var messageData = {
