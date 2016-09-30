@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 // middleware specific to this router
 router.use(function timeLog(req, res, next) {
@@ -94,19 +95,19 @@ function receivedMessage(event) {
         // the text we received.
         switch (messageText) {
             case 'image':
-                sendImageMessage(senderID);
+                //sendImageMessage(senderID);
                 break;
 
             case 'button':
-                sendButtonMessage(senderID);
+                //sendButtonMessage(senderID);
                 break;
 
             case 'generic':
-                sendGenericMessage(senderID);
+                //sendGenericMessage(senderID);
                 break;
 
             case 'receipt':
-                sendReceiptMessage(senderID);
+                //sendReceiptMessage(senderID);
                 break;
 
             default:
@@ -133,7 +134,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: "EAAJBADG4Y9kBAD1Rz4HrIeb3bgSkyFi8bUdakJAypW5ZCbfal3ZAeqER0MEWIz1qpWntUwYlb1O3QL2FYXTZA2P5hBw9Gui0zW6Q0mRjdxla3ZAcvDyMFj1TJOQhQKvcNJQV9OZBZBNZBXJsKkjQduCZCmJ9ULFhatlX7yr2UjfzxQZDZD" },
+        qs: { access_token: 'EAAJBADG4Y9kBAD1Rz4HrIeb3bgSkyFi8bUdakJAypW5ZCbfal3ZAeqER0MEWIz1qpWntUwYlb1O3QL2FYXTZA2P5hBw9Gui0zW6Q0mRjdxla3ZAcvDyMFj1TJOQhQKvcNJQV9OZBZBNZBXJsKkjQduCZCmJ9ULFhatlX7yr2UjfzxQZDZD' },
         method: 'POST',
         json: messageData
 
