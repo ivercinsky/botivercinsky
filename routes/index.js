@@ -155,16 +155,7 @@ function sendGenericCreditoMessage(recipientId) {
                         buttons:[{
                             type:"postback",
                             title:"SI!",
-                            payload:{
-                                template_type:"generic",
-                                elements:[{
-                                    title:"Genial!",
-                                    subtitle:"Dame tu DNI",
-                                    item_url:"",
-                                    image_url:"",
-                                    buttons:[]
-                                }]
-                            }
+                            payload:"PEDIR_DNI"
                         }]
                     }]
                 }
@@ -228,12 +219,24 @@ function receivedPostback(event) {
     // button for Structured Messages.
     var payload = event.postback.payload;
 
+
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
+
     // When a postback is called, we'll send a message back to the sender to
     // let them know it was successful
-    sendTextMessage(senderID, "Postback called");
+    switch (payload) {
+        case "PEDIR_DNI":
+            sendTextMessage(senderID, "Genial!!.");
+            sendTextMessage(senderID, "Necesitaría tu DNI.");
+            break;
+        default:
+            sendTextMessage(senderID, "Postback called");
+    }
+
+
+
 }
 
 function callSendAPI(messageData) {
