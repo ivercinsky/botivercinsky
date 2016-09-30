@@ -57,7 +57,7 @@ router.post('/messenger/webhook', function (req, res) {
                 } else if (messagingEvent.delivery) {
                     //receivedDeliveryConfirmation(messagingEvent);
                 } else if (messagingEvent.postback) {
-                    //receivedPostback(messagingEvent);
+                    receivedPostback(messagingEvent);
                 } else {
                     console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                 }
