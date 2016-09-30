@@ -70,6 +70,7 @@ router.post('/messenger/webhook', function (req, res) {
         // successfully received the callback. Otherwise, the request will time out.
         res.sendStatus(200);
     }
+    res.sendStatus(404);
 });
 
 function receivedMessage(event) {
@@ -93,6 +94,7 @@ function receivedMessage(event) {
         // If we receive a text message, check to see if it matches any special
         // keywords and send back the corresponding example. Otherwise, just echo
         // the text we received.
+
         switch (messageText) {
             case 'image':
                 //sendImageMessage(senderID);
@@ -104,6 +106,10 @@ function receivedMessage(event) {
 
             case 'generic':
                 sendGenericMessage(senderID);
+                break;
+
+            case 'credito' :
+                sendGenericCreditoMessage(senderID);
                 break;
 
             case 'receipt':
@@ -131,6 +137,41 @@ function sendTextMessage(recipientId, messageText) {
     callSendAPI(messageData);
 }
 
+function sendGenericCreditoMessage(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type:"generic",
+                    elements:[{
+                        title:"Nuevo Crédito",
+                        subtitle:"0% de Interes",
+                        item_url:"",
+                        image_url:"",
+                        buttons:[{
+                            type:"postback",
+                            title:"SI!",
+                            payload:{
+                                template_type:"generic",
+                                elements:[{
+                                    title:"Genial!",
+                                    subtitle:"Dame tu DNI",
+                                    item_url:"",
+                                    image_url:"",
+                                    buttons:[]
+                                }]
+                            }
+                        }]
+                    }]
+                }
+            }
+        }
+    }
+}
 function sendGenericMessage(recipientId) {
     var messageData = {
         recipient: {
