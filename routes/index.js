@@ -4,6 +4,12 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+const {Wit, log} = require("node-wit");
+const fetch = require('isomorphic-fetch');
+
+var wit_client = new Wit({
+    accessToken: 'W7NOF5LXBFSS7CZSG2R3KUGDEWAJGVIF'
+});
 
 // middleware specific to this router
 router.use(function timeLog(req, res, next) {
@@ -38,6 +44,17 @@ router.get('/messenger/webhook', function (req,res) {
 });
 
 
+router.post('/messenger/test', function(req,res) {
+    var messageText = req.body.texto;
+    wit_client.message(messageText, {}, '','id132',3).then(function(data){
+        console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
+        res.status(200).send(data);
+    }).catch(function(err){
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+
 router.post('/messenger/webhook', function (req, res) {
    var data = req.body;
 
@@ -53,11 +70,24 @@ router.post('/messenger/webhook', function (req, res) {
                 if (messagingEvent.optin) {
                     //receivedAuthentication(messagingEvent);
                 } else if (messagingEvent.message) {
-                    receivedMessage(messagingEvent);
+                    wit_client.message(messagingEvent.message.text, {}).then(function(data){
+                        console.log("WIT.AI RESPONDIO : " + data);
+                        messagingEvent.message.text = data.outcomes[0].intent[0].value;
+                        receivedMessage(messagingEvent);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 } else if (messagingEvent.delivery) {
                     //receivedDeliveryConfirmation(messagingEvent);
                 } else if (messagingEvent.postback) {
-                    receivedPostback(messagingEvent);
+                    wit_client.message(messagingEvent.message.text, {}).then(function(data){
+                        console.log("WIT.AI RESPONDIO : " + data);
+                        messagingEvent.message.text = data.outcomes[0].intent[0].value;
+                        receivedPostback(messagingEvent);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+
                 } else {
                     console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                 }
@@ -88,6 +118,8 @@ function receivedMessage(event) {
     // You may get a text or attachment but not both
     var messageText = message.text;
     var messageAttachments = message.attachments;
+
+
 
     if (messageText) {
 
@@ -161,7 +193,7 @@ function sendGenericCreditoMessage(recipientId) {
                 }
             }
         }
-    }
+    };
     callSendAPI(messageData);
 }
 function sendGenericMessage(recipientId) {
