@@ -198,6 +198,7 @@ function sendGreetingMessage(recipientId) {
             text: "Hola" + user["nombre"]
         }
     }
+    callSendAPI(messageData);
 }
 
 function sendGenericCreditoMessage(recipientId) {
