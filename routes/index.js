@@ -150,6 +150,7 @@ function receivedMessage(event) {
                 break;
             case 'saludar':
                 sendTextMessage(senderID, "Hola, Como andas? Mi nombre es Bottie! Me dirias el tuyo?");
+                break;
             default:
                 sendTextMessage(senderID, messageText);
         }
