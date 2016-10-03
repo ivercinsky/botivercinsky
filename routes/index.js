@@ -71,7 +71,7 @@ router.post('/messenger/webhook', function (req, res) {
                 } else if (messagingEvent.message) {
                     wit_client.message(messagingEvent.message.text, {}).then(function(data){
                         console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
-                        messagingEvent.message.text = data.outcomes[0].intent[0].value;
+                        messagingEvent.message.text = data.entities.intent[0].value;
                         receivedMessage(messagingEvent);
                     }).catch(function(err){
                         console.log(err);
@@ -97,7 +97,7 @@ router.post('/messenger/webhook', function (req, res) {
         //
         // You must send back a 200, within 20 seconds, to let us know you've
         // successfully received the callback. Otherwise, the request will time out.
-        res.sendStatus(200);
+        //res.sendStatus(200);
     }
     res.sendStatus(404);
 });
