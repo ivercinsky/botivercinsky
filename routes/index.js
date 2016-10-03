@@ -64,14 +64,13 @@ router.post('/messenger/webhook', function (req, res) {
         data.entry.forEach(function(pageEntry) {
             var pageID = pageEntry.id;
             var timeOfEvent = pageEntry.time;
-
             // Iterate over each messaging event
             pageEntry.messaging.forEach(function(messagingEvent) {
                 if (messagingEvent.optin) {
                     //receivedAuthentication(messagingEvent);
                 } else if (messagingEvent.message) {
                     wit_client.message(messagingEvent.message.text, {}).then(function(data){
-                        console.log("WIT.AI RESPONDIO : " + data);
+                        console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
                         messagingEvent.message.text = data.outcomes[0].intent[0].value;
                         receivedMessage(messagingEvent);
                     }).catch(function(err){
@@ -81,7 +80,7 @@ router.post('/messenger/webhook', function (req, res) {
                     //receivedDeliveryConfirmation(messagingEvent);
                 } else if (messagingEvent.postback) {
                     wit_client.message(messagingEvent.message.text, {}).then(function(data){
-                        console.log("WIT.AI RESPONDIO : " + data);
+                        console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
                         messagingEvent.message.text = data.outcomes[0].intent[0].value;
                         receivedPostback(messagingEvent);
                     }).catch(function(err){
