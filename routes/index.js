@@ -11,6 +11,7 @@ var wit_client = new Wit({
     accessToken: 'W7NOF5LXBFSS7CZSG2R3KUGDEWAJGVIF'
 });
 
+var user = {};
 // middleware specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());
@@ -48,7 +49,13 @@ router.post('/messenger/test', function(req,res) {
     var messageText = req.body.texto;
     wit_client.message(messageText, {}, '','id132',3).then(function(data){
         console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
-        res.status(200).send(data);
+        Object.keys(data.entities).forEach(function(option) {
+            console.log(option);
+            console.log(data.entities[option][0].value);
+            user[option] = data.entities[option][0].value;
+            console.log(JSON.stringify(user));
+        });
+        res.status(200).send(user);
     }).catch(function(err){
         console.log(err);
         res.sendStatus(500);
@@ -72,8 +79,14 @@ router.post('/messenger/webhook', function (req, res) {
                     wit_client.message(messagingEvent.message.text, {}).then(function(data){
                         console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
                         messagingEvent.message.text = data.entities.intent[0].value;
+                        Object.keys(data.entities).forEach(function(option) {
+                            //console.log(option);
+                            //console.log(data.entities[option][0].value);
+                            user[option] = data.entities[option][0].value;
+                            //console.log(JSON.stringify(user));
+                        });
                         receivedMessage(messagingEvent);
-                        //res.sendStatus(200);
+                        res.sendStatus(200);
                     }).catch(function(err){
                         console.log(err);
                     });
@@ -90,6 +103,7 @@ router.post('/messenger/webhook', function (req, res) {
                     });
 
                 } else {
+                    res.sendStatus(200);
                     console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                 }
             });
@@ -99,7 +113,7 @@ router.post('/messenger/webhook', function (req, res) {
         //
         // You must send back a 200, within 20 seconds, to let us know you've
         // successfully received the callback. Otherwise, the request will time out.
-        res.sendStatus(200);
+        //res.sendStatus(200);
     }
     res.sendStatus(404);
 });
@@ -149,7 +163,10 @@ function receivedMessage(event) {
                 //sendReceiptMessage(senderID);
                 break;
             case 'saludar':
-                sendTextMessage(senderID, "Hola, Como andas? Mi nombre es Bottie! Me dirias el tuyo?");
+                sendTextMessage(senderID, "Hola, Como andas? Mi nombre es Bottie! Me dirías el tuyo?");
+                break;
+            case 'presentarse':
+                sendGreetingMessage(senderID);
                 break;
             default:
                 sendTextMessage(senderID, messageText);
@@ -170,6 +187,17 @@ function sendTextMessage(recipientId, messageText) {
     };
 
     callSendAPI(messageData);
+}
+
+function sendGreetingMessage(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: "Hola" + user["nombre"]
+        }
+    }
 }
 
 function sendGenericCreditoMessage(recipientId) {
