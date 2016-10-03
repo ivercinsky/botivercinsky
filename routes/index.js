@@ -73,6 +73,7 @@ router.post('/messenger/webhook', function (req, res) {
                         console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
                         messagingEvent.message.text = data.entities.intent[0].value;
                         receivedMessage(messagingEvent);
+                        res.sendStatus(200);
                     }).catch(function(err){
                         console.log(err);
                     });
@@ -83,6 +84,7 @@ router.post('/messenger/webhook', function (req, res) {
                         console.log("WIT.AI RESPONDIO : " + JSON.stringify(data));
                         messagingEvent.message.text = data.outcomes[0].intent[0].value;
                         receivedPostback(messagingEvent);
+                        res.sendStatus(200);
                     }).catch(function(err){
                         console.log(err);
                     });
@@ -146,7 +148,8 @@ function receivedMessage(event) {
             case 'receipt':
                 //sendReceiptMessage(senderID);
                 break;
-
+            case 'saludar':
+                sendTextMessage(senderID, "Hola, Como andas? Mi nombre es Bottie! Me dirias el tuyo?");
             default:
                 sendTextMessage(senderID, messageText);
         }
