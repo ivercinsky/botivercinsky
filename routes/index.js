@@ -195,10 +195,11 @@ function sendGreetingMessage(recipientId) {
             id: recipientId
         },
         message: {
-            text: "Hola" + user["nombre"]
+            text: "Hola " + user["nombre"] + ". Mucho gusto, en que puedo ayudarte hoy?"
         }
     }
     callSendAPI(messageData);
+    sendGenericCreditoMessage(recipientId);
 }
 
 function sendGenericCreditoMessage(recipientId) {
